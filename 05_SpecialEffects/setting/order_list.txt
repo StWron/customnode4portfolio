@@ -1,0 +1,3 @@
+motion
+fps
+fx_type

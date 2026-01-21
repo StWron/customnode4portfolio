@@ -1,0 +1,6 @@
+{
+    "ckpt": {
+        "type": "combo",
+        "value": "v1-5-pruned-emaonly.safetensors"
+    }
+}
