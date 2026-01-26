@@ -94,4 +94,23 @@ try:
 except ImportError:
     pass
 
+# 5. 채널 기반 통신 노드 (Sender, Receiver) 추가 등록
+try:
+    from .Receiver_Node import ReceiverNode
+    NODE_CLASS_MAPPINGS["Receiver_Node"] = ReceiverNode
+    NODE_DISPLAY_NAME_MAPPINGS["Receiver_Node"] = "🟢 Receiver Node (Channel-based Reception v1.2)"
+except ImportError:
+    print(f"❌ [Infra] Failed to load Receiver_Node: Receiver_Node.py not found or class missing.")
+    pass
+
+try:
+    # Sender_Node.py 파일이 제공되지 않았으므로, 일반적인 패턴을 가정하여 추가합니다.
+    # 실제 Sender_Node.py 파일의 클래스 이름과 매핑 키에 맞게 수정해야 합니다.
+    from .Sender_Node import SenderNode
+    NODE_CLASS_MAPPINGS["Sender_Node"] = SenderNode
+    NODE_DISPLAY_NAME_MAPPINGS["Sender_Node"] = "🔴 Sender Node (Channel-based Transmission v1.2)"
+except ImportError:
+    print(f"❌ [Infra] Failed to load Sender_Node: Sender_Node.py not found or class missing.")
+    pass
+
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]
