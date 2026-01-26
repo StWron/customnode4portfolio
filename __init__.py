@@ -87,13 +87,20 @@ for cat in CATEGORIES:
     except Exception as e:
         print(f"❌ [Infra] Failed to load {cat}: {e}")
 
-# 4. 프로젝트 마스터 컨트롤러(Archiver) 추가 등록
+# __init__.py 하단 매핑 부분
+
 try:
-    from .Project_Master_Controller import ProjectMasterController
+    # 통합된 파일에서 두 클래스를 모두 가져옴
+    from .Master_Slave import ProjectMasterController, SlaveDistributor
+    
     NODE_CLASS_MAPPINGS["ProjectMasterController"] = ProjectMasterController
-    NODE_DISPLAY_NAME_MAPPINGS["ProjectMasterController"] = "📁 Project Master Controller"
-except ImportError:
-    pass
+    NODE_DISPLAY_NAME_MAPPINGS["ProjectMasterController"] = "📁 Project Master Controller (Master)"
+    
+    NODE_CLASS_MAPPINGS["SlaveDistributor"] = SlaveDistributor
+    NODE_DISPLAY_NAME_MAPPINGS["SlaveDistributor"] = "🟢 [SLAVE] Asset Distributor"
+    
+except Exception as e:
+    print(f"❌ [Infra] Failed to load Integrated Master/Slave: {e}")
 
 # 5. 채널 기반 통신 노드 (Sender, Receiver) 추가 등록
 try:
