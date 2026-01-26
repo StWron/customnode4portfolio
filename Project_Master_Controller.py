@@ -26,8 +26,8 @@ class ProjectMasterController:
     RETURN_NAMES = ("merged_data",)
     FUNCTION = "execute_management"
     CATEGORY = "Universal_Pipeline/Management"
-
-def execute_management(self, project_name, asset_save_root, archive_root, **kwargs):
+    
+    def execute_management(self, project_name, asset_save_root, archive_root, **kwargs):
         now = datetime.now()
         timestamp = now.strftime("%Y%m%d_%H%M%S")
         
