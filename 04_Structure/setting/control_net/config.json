@@ -1,6 +1,6 @@
 {
     "control_net": {
         "type": "combo",
-        "value": "none"
+        "value": "diffusion_pytorch_model_promax.safetensors"
     }
 }

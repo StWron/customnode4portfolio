@@ -2,7 +2,6 @@ import os
 import json
 import importlib
 import unicodedata
-from . import global_channels # Import the global channel mechanism
 
 NODE_DIR = os.path.dirname(os.path.realpath(__file__))
 CATEGORIES = ["01_Background", "02_Equipment", "03_Character", "04_Structure", "05_SpecialEffects", "06_Audio"]
@@ -10,34 +9,36 @@ CATEGORIES = ["01_Background", "02_Equipment", "03_Character", "04_Structure", "
 # 초기 생성용 규격화 데이터
 DEFAULT_DATA = {
     "01_Background": {
-        "ckpt": {"type": "combo", "value": "v1-5-pruned-emaonly.safetensors"},
-        "prompt": {"type": "string", "value": "scenic landscape"},
+        "ckpt": {"type": "combo", "value": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors"},
+        "prompt": {"type": "string", "value": "score_9, score_8_up, score_7_up, (scenic landscape:1.2), battlefield, fire, cinematic lighting"},
         "ratio": {"type": "combo", "value": "16:9"}
     },
     "02_Equipment": {
-        "lora": {"type": "combo", "value": "None"},
-        "strength": {"type": "float", "value": 0.7, "min": 0.0, "max": 1.0, "step": 0.01},
-        "tags": {"type": "string", "value": "metallic"}
+        "lora": {"type": "combo", "value": "reij-style01.safetensors"},
+        "strength": {"type": "float", "value": 0.8, "min": 0.0, "max": 2.0, "step": 0.01},
+        "tags": {"type": "string", "value": "metallic, armor, high detail"}
     },
     "03_Character": {
-        "ckpt": {"type": "combo", "value": "v1-5-pruned-emaonly.safetensors"},
-        "prompt": {"type": "string", "value": "1girl, warrior, masterpiece"},
-        "denoise": {"type": "float", "value": 0.7, "min": 0.0, "max": 1.0, "step": 0.05}
+        "ckpt": {"type": "combo", "value": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors"},
+        "prompt": {"type": "string", "value": "score_9, score_8_up, score_7_up, 1girl, warrior, full armor, masterpiece"},
+        "denoise": {"type": "float", "value": 0.6, "min": 0.0, "max": 1.0, "step": 0.05}
     },
     "04_Structure": {
-        "control_net": {"type": "combo", "value": "none"},
-        "type": {"type": "combo", "value": "interior"},
-        "strength": {"type": "float", "value": 1.0, "min": 0.0, "max": 2.0, "step": 0.1}
+        "control_net": {"type": "combo", "value": "diffusion_pytorch_model_promax.safetensors"},
+        "mode": {"type": "combo", "value": "standard"},
+        "type": {"type": "combo", "value": "openpose"},
+        "strength": {"type": "float", "value": 1.0, "min": 0.0, "max": 2.0, "step": 0.05}
     },
     "05_SpecialEffects": {
-        "motion": {"type": "combo", "value": "none"},
-        "fps": {"type": "int", "value": 8, "min": 1, "max": 60},
-        "fx_type": {"type": "string", "value": "fire"}
+        "motion": {"type": "combo", "value": "hsxl_temporal_layers.safetensors"},
+        "fps": {"type": "int", "value": 12, "min": 1, "max": 60},
+        "fx_type": {"type": "combo", "value": "fire"}
     },
     "06_Audio": {
-        "model": {"type": "combo", "value": "none"},
-        "duration": {"type": "float", "value": 5.0, "min": 0.1, "max": 60.0, "step": 0.1},
-        "bpm": {"type": "int", "value": 120, "min": 40, "max": 250}
+        "model": {"type": "combo", "value": "model.ckpt"},
+        "prompt": {"type": "string", "value": "Epic cinematic, [소설 상황 묘사 문단 삽입], 128 BPM"},
+        "duration": {"type": "float", "value": 5.0, "min": 0.1, "max": 30.0, "step": 0.1},
+        "bpm": {"type": "int", "value": 128, "min": 40, "max": 250}
     }
 }
 

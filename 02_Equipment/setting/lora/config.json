@@ -1,6 +1,6 @@
 {
     "lora": {
         "type": "combo",
-        "value": "None"
+        "value": "reij-style01.safetensors"
     }
 }

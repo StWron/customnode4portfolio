@@ -103,9 +103,8 @@ class SlaveDistributor:
     def distribute(self, CHANNEL, reference_mode, archive_file_path):
         data = None
         
-        # 1. 참조 모드에 따른 데이터 획득 (Channel or Archive)
+        # 1. 참조 모드에 따른 데이터 획득 로직 (기존 유지)
         if reference_mode == "Archive":
-            # 아카이브 참조: 파일 경로에서 직접 데이터를 로드하여 균일 품질 확보
             if os.path.exists(archive_file_path):
                 try:
                     with open(archive_file_path, "r", encoding="utf-8") as f:
@@ -113,18 +112,13 @@ class SlaveDistributor:
                         print(f"📦 [SLAVE] 아카이브 데이터 참조 성공: {archive_file_path}")
                 except Exception as e:
                     print(f"❌ [SLAVE] 아카이브 로드 실패: {e}")
-            else:
-                print(f"⚠️ [SLAVE] 아카이브 파일이 존재하지 않습니다.")
 
-        # 채널 모드이거나 아카이브 획득에 실패했을 경우 기존 버스 데이터 참조
         if data is None:
             data = INTERNAL_PROJECT_BUS.get(CHANNEL)
         
-        # 데이터가 전혀 없을 경우 빈 값 리턴
         if not data:
             return ({}, {}, {}, {}, {}, {})
 
-        # 2. 첫 번째 리스트(project_info) 및 두 번째 리스트(settings) 추출
         project_info = data.get("project_info", {})
         settings = data.get("settings", {})
         
@@ -133,23 +127,25 @@ class SlaveDistributor:
             "04_Structure", "05_SpecialEffects", "06_Audio"
         ]
         
-        # 3. for i 문을 6번 반복하여 리스트 함수 형태의 데이터 생성
+        # [정정 핵심] 6번의 루프를 돌며 각 결과값을 output_list에 정확히 append 해야 합니다.
         output_list = []
         for i in range(6):
             integrated_dict = project_info.copy()
-            key = category_keys[i]  # 예: "01_Background"
-    
-        # root 경로를 "프로젝트경로/카테고리명"으로 업데이트
-        if "root" in integrated_dict:
-            integrated_dict["root"] = os.path.join(integrated_dict["root"], key)
-    
-        # 이후 i번째 세팅값 병합
-        category_data = settings.get(key, {})
-        if category_data:
-            integrated_dict.update(category_data)
-    
-        output_list.append(integrated_dict)
-        # 4. 최종 6개 딕셔너리 반환
+            key = category_keys[i]
+            
+            # root 경로를 "프로젝트경로/카테고리명"으로 업데이트
+            if "root" in integrated_dict:
+                integrated_dict["root"] = os.path.join(integrated_dict["root"], key)
+            
+            # i번째 카테고리의 세팅값 병합 (소설 문단 프롬프트 포함)
+            category_data = settings.get(key, {})
+            if category_data:
+                integrated_dict.update(category_data)
+            
+            # 리스트에 추가 (이 부분이 루프 안으로 들어와야 함)
+            output_list.append(integrated_dict)
+        
+        # 2. 이제 output_list에는 6개의 항목이 보장됩니다.
         return (
             output_list[0], output_list[1], output_list[2], 
             output_list[3], output_list[4], output_list[5]

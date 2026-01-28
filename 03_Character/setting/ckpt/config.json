@@ -1,6 +1,6 @@
 {
     "ckpt": {
         "type": "combo",
-        "value": "v1-5-pruned-emaonly.safetensors"
+        "value": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors"
     }
 }

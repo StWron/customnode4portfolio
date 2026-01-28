@@ -1,7 +1,7 @@
 {
     "bpm": {
         "type": "int",
-        "value": 120,
+        "value": 128,
         "min": 40,
         "max": 250
     }

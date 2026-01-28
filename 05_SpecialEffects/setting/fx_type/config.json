@@ -1,6 +1,6 @@
 {
     "fx_type": {
-        "type": "string",
+        "type": "combo",
         "value": "fire"
     }
 }
