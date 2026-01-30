@@ -92,7 +92,7 @@ class SlaveDistributor:
         }
 
     # 지시사항: 리턴 타입 6개 고정
-    RETURN_TYPES = ("DICT", "DICT", "DICT", "DICT", "DICT", "DICT")
+    RETURN_TYPES = ("STRING", "STRING", "STRING", "STRING", "STRING", "STRING")
     RETURN_NAMES = (
         "01_Background", "02_Equipment", "03_Character", 
         "04_Structure", "05_SpecialEffects", "06_Audio"
