@@ -2,7 +2,7 @@ import os
 import json
 import unicodedata
 
-# 파일 내부 전역 변수로 데이터 저장소 구현 (외부 파일 의존성 제거)
+# 파일 내부 전역 변수로 데이터 저장소 구현
 INTERNAL_STORAGE = {}
 
 class SenderNode:
@@ -50,7 +50,7 @@ class ReceiverNode:
         if not data:
             return ({}, {}, {}, {}, {}, {}, {}, "NONE", "NONE")
 
-        # ProjectMasterController 구조에 따른 데이터 분해
+        # 구조에 따른 데이터 분해
         info = data.get("project_info", {})
         settings = data.get("settings", {})
         

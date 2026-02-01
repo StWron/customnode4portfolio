@@ -57,20 +57,18 @@ class ProjectMasterController:
         for cat in categories:
             os.makedirs(os.path.join(project_base_path, cat), exist_ok=True)
 
-# 3. 아카이브 저장 및 리스트 갱신 (추가 방식 적용)
+# 3. 아카이브 저장 및 리스트 갱신
         abs_archive_root = os.path.abspath(archive_root)
         arch_dir = os.path.join(abs_archive_root, "archive_dictionary")
         os.makedirs(arch_dir, exist_ok=True)
         
         file_name = f"{timestamp}_{project_name}.json"
         list_file = os.path.join(abs_archive_root, "archiving_list.txt")
-        
-        # [지시사항 반영] 추가(Append) 모드는 파일 생성과 내용 추가를 동시에 보장합니다.
 
         with open(list_file, "a", encoding="utf-8") as f:
             f.write(f"[{timestamp}] PROJ: {project_name} | FILE: {file_name}\n")
 
-        # 실제 개별 아카이브 JSON 파일은 새롭게 생성('w')하여 저장
+        # 개별 아카이브 JSON 파일 저장
         with open(os.path.join(arch_dir, file_name), "w", encoding="utf-8") as f:
             json.dump(total_package, f, indent=4)
 
@@ -103,7 +101,7 @@ class SlaveDistributor:
     def distribute(self, CHANNEL, reference_mode, archive_file_path):
         data = None
         
-        # 1. 참조 모드에 따른 데이터 획득 로직 (기존 유지)
+        # 1. 데이터 참조 로직
         if reference_mode == "Archive":
             if os.path.exists(archive_file_path):
                 try:
@@ -127,25 +125,24 @@ class SlaveDistributor:
             "04_Structure", "05_SpecialEffects", "06_Audio"
         ]
         
-        # [정정 핵심] 6번의 루프를 돌며 각 결과값을 output_list에 정확히 append 해야 합니다.
         output_list = []
         for i in range(6):
             integrated_dict = project_info.copy()
             key = category_keys[i]
             
-            # root 경로를 "프로젝트경로/카테고리명"으로 업데이트
+            # root 경로를 프로젝트경로/카테고리명으로 업데이트
             if "root" in integrated_dict:
                 integrated_dict["root"] = os.path.join(integrated_dict["root"], key)
             
-            # i번째 카테고리의 세팅값 병합 (소설 문단 프롬프트 포함)
+            # 카테고리별 데이터 병합
             category_data = settings.get(key, {})
             if category_data:
                 integrated_dict.update(category_data)
             
-            # 리스트에 추가 (이 부분이 루프 안으로 들어와야 함)
+            # 리스트에 추가
             output_list.append(integrated_dict)
         
-        # 2. 이제 output_list에는 6개의 항목이 보장됩니다.
+        # output_list에 6개의 항목 지정, 차후 동적 참조 추가 예정
         return (
             output_list[0], output_list[1], output_list[2], 
             output_list[3], output_list[4], output_list[5]

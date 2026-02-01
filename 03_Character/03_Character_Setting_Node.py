@@ -11,7 +11,7 @@ class CharacterSettingNode:
         
         if not os.path.exists(scan_path): os.makedirs(scan_path, exist_ok=True)
         
-        # 1. order_list.txt에서 UI 설계도(항목) 확보
+        # 1. order_list.txt에서 UI 목록 확보
         ui_keys = []
         if os.path.exists(order_file):
             with open(order_file, "r", encoding="utf-8") as f:
@@ -24,7 +24,7 @@ class CharacterSettingNode:
             param_folder = os.path.join(scan_path, key)
             config_path = os.path.join(param_folder, "config.json")
             
-            # 실제 파일/폴더 스캔 (드롭다운 자원 확보)
+            # 실제 파일/폴더 스캔
             sub_items = []
             if os.path.exists(param_folder):
                 sub_items = [d for d in os.listdir(param_folder) if not d.endswith('.json') and not d.endswith('.txt')]
@@ -44,13 +44,12 @@ class CharacterSettingNode:
                     elif w_type == "string":
                         required_inputs[key] = ("STRING", {"default": str(val)})
                     else: 
-                        # [복구 핵심] 파일이 있거나 JSON 옵션이 있으면 '드롭다운' 강제 유지
                         options = conf_data.get("options", sub_items)
                         
                         if options:
                             required_inputs[key] = (options,)
                         else:
-                            # 아무 자원도 없을 때만 FALLBACK으로 텍스트 입력창 제공
+                            # 폴더/파일 없을시 텍스트 입력창 제공
                             required_inputs[key] = ("STRING", {"default": str(val)})
                 except:
                     required_inputs[key] = (["config_error"],)
@@ -62,7 +61,6 @@ class CharacterSettingNode:
                     required_inputs[key] = ("STRING", {"default": "none"})
 
         return {"required": required_inputs}
-
     RETURN_TYPES = ("DICT",)
     RETURN_NAMES = ("03_Character",)
     FUNCTION = "load_config"
