@@ -15,7 +15,7 @@ class ProjectMasterController:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "project_name": ("STRING", {"default": "NOVELPIA_PROJ"}),
+                "project_name": ("STRING", {"default": "MASTER_PROJ"}),
                 "asset_save_root": ("STRING", {"default": "output/Asset_Library"}),
                 "archive_root": ("STRING", {"default": "output/Archive_Data"}),
                 "CHANNEL": ("STRING", {"default": "MASTER_CH"}),
